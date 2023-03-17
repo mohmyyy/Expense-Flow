@@ -13,38 +13,41 @@ const AuthPage = () => {
 
     const userEmail = emailRef.current.value;
     const userPassword = passwordRef.current.value;
-    const userConfirmedPassword = confirmPasswordRef.current.value;
 
-    if (userPassword === userConfirmedPassword) {
-      let url;
-      if (islogin) {
-        url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE";
-      } else {
-        url =
-          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE"
-      }
-      try{
-        const response = await fetch(url, {
-          method: "POST",
-          body: JSON.stringify({
-            email: userEmail,
-            password: userPassword,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.error.message);
-        }
-      }
-      catch(error){
-        alert(error)
-      }
+    let url;
+    if (islogin) {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE";
     } else {
-      alert("PASSWORD IS INCORRECT")
+
+      const userConfirmedPassword = confirmPasswordRef.current.value;
+      if (userPassword === userConfirmedPassword) {
+        url =
+          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE";
+      } else {
+        alert("PASSWORD DOES NOT MATCH");
+      }
+    }
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          email: userEmail,
+          password: userPassword,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        console.log(data)
+        throw new Error(data.error.message);
+      }
+      console.log(data);
+    } catch (error) {
+      alert(error);
     }
   };
 
@@ -58,16 +61,20 @@ const AuthPage = () => {
         <h1>{islogin ? "Login" : "Sign Up"}</h1>
         <input ref={emailRef} type="email" placeholder="Email" />
         <input ref={passwordRef} type="password" placeholder="Password" />
-        <input
-          ref={confirmPasswordRef}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        <button onClick={changeAuthHandler}>
-          {islogin ? "Log In" : "Sign Up"}
-        </button>
+        {!islogin && (
+          <input
+            ref={confirmPasswordRef}
+            type="password"
+            placeholder="Confirm Password"
+          />
+        )}
+        <button>{islogin ? "Log In" : "Sign Up"}</button>
       </form>
-      <button className={classes.btn}>Have an account? (Log In)</button>
+      <button onClick={changeAuthHandler} className={classes.btn}>
+        {islogin
+          ? "Don't Have an Account? (Sign Up)"
+          : " Have an account? (Log In)"}
+      </button>
     </div>
   );
 };
