@@ -1,6 +1,15 @@
+import { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import classes from "./NavBar.module.css";
+import { AuthContext } from "./store/auth-context";
 
 const NavBar = () => {
+  const ctx = useContext(AuthContext);
+  const history = useHistory();
+  const authHandler = () => {
+    ctx.onLoggedOut();
+    history.replace("/auth");
+  };
   return (
     // <header>
     <nav className={classes.nav}>
@@ -8,11 +17,15 @@ const NavBar = () => {
         Expense Flow
       </a>
       <ul>
-        <li className={()=>classes.active}>
+        <li>
           <a href="/Home">Home</a>
         </li>
         <li>
           <a href="/Product">Product</a>
+        </li>
+        <li>
+          {!ctx.isLoggedIn && <button onClick={authHandler}>LogIn</button>}
+          {ctx.isLoggedIn && <button onClick={authHandler}>Logout</button>}
         </li>
       </ul>
     </nav>

@@ -21,6 +21,7 @@ const AuthContextProvider = (props) => {
   };
 
   const loggedOutHandler = () => {
+    console.log('hello')
     setToken(() => null);
     localStorage.removeItem("token");
   };

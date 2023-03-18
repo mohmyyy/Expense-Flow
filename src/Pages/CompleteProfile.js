@@ -4,56 +4,86 @@ import { AuthContext } from "../components/store/auth-context";
 
 const CompleteProfile = () => {
   const ctx = useContext(AuthContext);
-  console.log(ctx);
+  console.log(ctx.token);
   const nameRef = useRef();
   const photoUrlRef = useRef();
-  const [image, setImage] = useState("");
-  const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userURL, setUserURL] = useState("");
+  // const [image, setImage] = useState('');
+  // const [name, setName] = useState('');
 
   useEffect(() => {
     const asyncFun = async () => {
-      const resposne = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            idToken: ctx.token,
-          }),
-          headers: {
-            "content-type": "application/json",
-          },
+      try {
+        const resposne = await fetch(
+          "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              idToken: ctx.token,
+            }),
+            headers: {
+              "content-type": "application/json",
+            },
+          }
+        );
+        const data = await resposne.json();
+        if (!resposne.ok) {
+          throw new Error(data.error.message);
+        } else {
+          console.log(data);
+          setUserName(() => data.users[0].displayName);
+          setUserURL(() => data.users[0].photoUrl);
         }
-      );
-      const data = await resposne.json();
-      setName(()=>data.users[0].displayName)
-      setImage(()=>data.users[0].photoUrl)
+      } catch (error) {
+        alert(error);
+      }
     };
     asyncFun();
   }, []);
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
-    const userName = nameRef.current.value;
-    const photoUrl = photoUrlRef.current.value;
-    console.log(userName, photoUrl);
-    const response = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          idToken: ctx.token,
-          displayName: userName,
-          photoUrl: photoUrl,
-          deleteAttribute: null,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-type": "Application/json",
-        },
+    // const userName = nameRef.current.value;
+    // const userURL = photoUrlRef.current.value;
+    console.log(userName, userURL);
+    try {
+      const response = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            idToken: ctx.token,
+            displayName: userName,
+            photoUrl: userURL,
+            deleteAttribute: null,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "Content-type": "Application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if(!response.ok){
+        throw new Error(data.error.message)
       }
-    );
-    const data = await response.json();
-    console.log(data);
+      console.log(data);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const nameChangeHandler = (event) => {
+    console.log(event.target.value);
+    setUserName(event.target.value);
+  };
+
+  const urlChangeHandler = (event) => {
+    console.log(event.target.value);
+    // setTimeout(() => {
+    setUserURL(event.target.value);
+    // });
   };
 
   return (
@@ -77,11 +107,15 @@ const CompleteProfile = () => {
           <div className={classes["details-form"]}>
             <div>
               <label>Full Name</label>
-              <input ref={nameRef} type="text" value={name} />
+              <input
+                type="text"
+                value={userName}
+                onChange={nameChangeHandler}
+              />
             </div>
             <div>
               <label>Profile Phot URL</label>
-              <input ref={photoUrlRef} type="url" value={image} />
+              <input type="url" value={userURL} onChange={urlChangeHandler} />
             </div>
           </div>
           <button>Update</button>

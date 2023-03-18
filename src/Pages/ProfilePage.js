@@ -5,21 +5,28 @@ import classes from "./ProfilePage.module.css";
 const ProfilePage = () => {
   const ctx = useContext(AuthContext);
   const verifyUserHandler = async () => {
-    const response = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          requestType: "VERIFY_EMAIL",
-          idToken: ctx.token,
-        }),
-        headers: {
-          "Content-type": "application/json",
-        },
+    try {
+      const response = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            requestType: "VERIFY_EMAIL",
+            idToken: ctx.token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message.error);
       }
-    );
-    const data = await response.json();
-    console.log(data);
+      console.log(data);
+    } catch (error) {
+      alert(error);
+    }
   };
   return (
     <div>
