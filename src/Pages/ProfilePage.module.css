@@ -1,17 +1,29 @@
-.header{
+.header {
   display: flex;
   justify-content: center;
   justify-content: space-around;
   width: 95% auto;
-  
 }
 
-.header h2{
+.header h2 {
   background-color: grey;
   border-radius: 20px;
   padding: 2px;
 }
 
-.header h2 span{
+.header h2 span {
   color: blue;
+}
+
+.verify-item {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px;
+  align-items: center;
+}
+
+.verify-item button {
+  margin: 20px;
+  padding: 4px 10px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
