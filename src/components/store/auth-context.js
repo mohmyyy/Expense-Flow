@@ -1,39 +1,36 @@
 import React, { useState } from "react";
 
 export const AuthContext = React.createContext({
+  token: null,
   isLoggedIn: false,
-  token: "",
   onLogIn: () => {},
   onLoggedOut: () => {},
 });
 
 const AuthContextProvider = (props) => {
-  const [token, setToken] = useState("");
-
   const checkLoginStatus = localStorage.getItem("token");
-  console.log(checkLoginStatus);
+  const [token, setToken] = useState(checkLoginStatus);
 
-  const userLoggedIndetails = !!checkLoginStatus;
+  const userLoggedIndetails = !!token;
 
   const loginHandler = (token) => {
-    setToken(() => token);
+    setToken(token);
     localStorage.setItem("token", token);
   };
 
   const loggedOutHandler = () => {
-    console.log('hello')
     setToken(() => null);
     localStorage.removeItem("token");
   };
 
   const authObj = {
-    token: checkLoginStatus,
+    token: token,
     isLoggedIn: userLoggedIndetails,
     onLogIn: loginHandler,
     onLoggedOut: loggedOutHandler,
   };
 
-  console.log(authObj)
+  console.log(authObj);
 
   return (
     <AuthContext.Provider value={authObj}>

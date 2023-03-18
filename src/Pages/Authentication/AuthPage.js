@@ -8,7 +8,6 @@ const AuthPage = () => {
   const [openEye, closeEye] = useState("open-eye-icon.png");
   const [text, setPassword] = useState("password");
   const history = useHistory();
-  console.log(history);
   const ctx = useContext(AuthContext);
   const emailRef = useRef();
   const passwordRef = useRef();

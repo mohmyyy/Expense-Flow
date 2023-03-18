@@ -1,12 +1,14 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import classes from "./CompleteProfile.module.css";
 import { AuthContext } from "../components/store/auth-context";
+import { Redirect, Route, useHistory } from "react-router-dom";
 
 const CompleteProfile = () => {
   const ctx = useContext(AuthContext);
   console.log(ctx.token);
-  const nameRef = useRef();
-  const photoUrlRef = useRef();
+  const history = useHistory();
+  // const nameRef = useRef();
+  // const photoUrlRef = useRef();
   const [userName, setUserName] = useState("");
   const [userURL, setUserURL] = useState("");
   // const [image, setImage] = useState('');
@@ -85,6 +87,12 @@ const CompleteProfile = () => {
     setUserURL(event.target.value);
     // });
   };
+  const redirectHandler = () => {
+    // console.log('helllo')
+    return (
+      history.push('/profile')
+    );
+  };
 
   return (
     <div className={classes.container}>
@@ -100,7 +108,7 @@ const CompleteProfile = () => {
       </div>
       <div className={classes.name}>
         <h3>Contact details</h3>
-        <button>cancel</button>
+        <button onClick={redirectHandler}>cancel</button>
       </div>
       <div className={classes.details}>
         <form onSubmit={formSubmitHandler}>

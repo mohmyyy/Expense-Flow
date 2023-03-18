@@ -1,0 +1,8 @@
+
+.items{
+  margin: 20px 200px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+
+}

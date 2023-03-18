@@ -18,10 +18,10 @@ const NavBar = () => {
       </a>
       <ul>
         <li>
-          <a href="/Home">Home</a>
+          <a href="/profile">Profile</a>
         </li>
         <li>
-          <a href="/Product">Product</a>
+          <a href="/track-expense">Track Expense</a>
         </li>
         <li>
           {!ctx.isLoggedIn && <button onClick={authHandler}>LogIn</button>}
