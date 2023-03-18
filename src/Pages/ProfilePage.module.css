@@ -1,0 +1,17 @@
+.header{
+  display: flex;
+  justify-content: center;
+  justify-content: space-around;
+  width: 95% auto;
+  
+}
+
+.header h2{
+  background-color: grey;
+  border-radius: 20px;
+  padding: 2px;
+}
+
+.header h2 span{
+  color: blue;
+}

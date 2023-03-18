@@ -1,9 +1,15 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { AuthContext } from "../../components/store/auth-context";
 import classes from "./AuthPage.module.css";
 
 const AuthPage = () => {
   const [islogin, setIsLogin] = useState(false);
-
+  const [openEye, closeEye] = useState("open-eye-icon.png");
+  const [text, setPassword] = useState("password");
+  const history = useHistory();
+  console.log(history);
+  const ctx = useContext(AuthContext);
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
@@ -19,7 +25,6 @@ const AuthPage = () => {
       url =
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE";
     } else {
-
       const userConfirmedPassword = confirmPasswordRef.current.value;
       if (userPassword === userConfirmedPassword) {
         url =
@@ -42,12 +47,26 @@ const AuthPage = () => {
       });
       const data = await response.json();
       if (!response.ok) {
-        console.log(data)
+        console.log(data);
         throw new Error(data.error.message);
+      } else {
+        // history.replace("/Home");
+        ctx.onLogIn(data.idToken);
+        history.replace("/profile");
       }
-      console.log(data);
+      console.log(data.idToken);
     } catch (error) {
       alert(error);
+    }
+  };
+
+  const eyeHandler = () => {
+    if (text === "password") {
+      setPassword("text");
+      closeEye("closed-eye-icon.png");
+    } else {
+      setPassword("password");
+      closeEye("open-eye-icon.png");
     }
   };
 
@@ -59,16 +78,30 @@ const AuthPage = () => {
     <div className={classes.ctn}>
       <form className={classes.form} onSubmit={formSubmitHandler}>
         <h1>{islogin ? "Login" : "Sign Up"}</h1>
-        <input ref={emailRef} type="email" placeholder="Email" />
-        <input ref={passwordRef} type="password" placeholder="Password" />
+        <input
+          className={classes.input}
+          ref={emailRef}
+          type="email"
+          placeholder="Email"
+        />
+        <div className={classes.password}>
+          <input ref={passwordRef} type={text} placeholder="Password" />
+          <img src={openEye} onClick={eyeHandler} alt="see password" />
+        </div>
         {!islogin && (
-          <input
-            ref={confirmPasswordRef}
-            type="password"
-            placeholder="Confirm Password"
-          />
+          <div className={classes.password}>
+            <input
+              ref={confirmPasswordRef}
+              type={text}
+              placeholder="Confirm Password"
+            />
+            <img src={openEye} onClick={eyeHandler} alt="see password" />
+          </div>
         )}
         <button>{islogin ? "Log In" : "Sign Up"}</button>
+        <span className={classes.link}>
+          <a href='/home'>Forgot password?</a>
+        </span>
       </form>
       <button onClick={changeAuthHandler} className={classes.btn}>
         {islogin
