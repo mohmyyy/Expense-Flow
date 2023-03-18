@@ -1,5 +1,5 @@
 import { useCallback, useContext } from "react";
-import { Route, Router, Switch } from "react-router-dom";
+import { Redirect, Route, Router, Switch } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import AuthPage from "./Pages/Authentication/AuthPage";
@@ -9,12 +9,15 @@ import AuthContextProvider from "./components/store/auth-context";
 import CompleteProfile from "./Pages/CompleteProfile";
 
 function App() {
-  const ctx = useContext(AuthContext);
-  console.log(ctx);
+  const ctx = useContext(AuthContext)
+  console.log(ctx)
   return (
     <div className="App">
       <AuthContextProvider>
         <Switch>
+        <Route path="/" exact>
+            <Redirect to='/profile' />
+          </Route>
           <Route path="/profile" exact>
             <ProfilePage />
           </Route>

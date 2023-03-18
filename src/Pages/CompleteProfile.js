@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import classes from "./CompleteProfile.module.css";
 import { AuthContext } from "../components/store/auth-context";
 
@@ -7,7 +7,29 @@ const CompleteProfile = () => {
   console.log(ctx);
   const nameRef = useRef();
   const photoUrlRef = useRef();
-  // const [image, setImage] = useState("");
+  const [image, setImage] = useState("");
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    const asyncFun = async () => {
+      const resposne = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDqf51p2j8MCmXzGVzjWDTqPIRvyMr5KUE",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            idToken: ctx.token,
+          }),
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
+      const data = await resposne.json();
+      setName(()=>data.users[0].displayName)
+      setImage(()=>data.users[0].photoUrl)
+    };
+    asyncFun();
+  }, []);
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
@@ -23,7 +45,7 @@ const CompleteProfile = () => {
           displayName: userName,
           photoUrl: photoUrl,
           deleteAttribute: null,
-          returnSecureToken: false,
+          returnSecureToken: true,
         }),
         headers: {
           "Content-type": "Application/json",
@@ -55,11 +77,11 @@ const CompleteProfile = () => {
           <div className={classes["details-form"]}>
             <div>
               <label>Full Name</label>
-              <input ref={nameRef} type="text" />
+              <input ref={nameRef} type="text" value={name} />
             </div>
             <div>
               <label>Profile Phot URL</label>
-              <input ref={photoUrlRef} type="text" />
+              <input ref={photoUrlRef} type="url" value={image} />
             </div>
           </div>
           <button>Update</button>
