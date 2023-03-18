@@ -8,6 +8,7 @@ import { AuthContext } from "./components/store/auth-context";
 import AuthContextProvider from "./components/store/auth-context";
 import CompleteProfile from "./Pages/CompleteProfile";
 import Layout from "./components/Layout";
+import ChangePassword from "./Pages/ChangePassword";
 
 function App() {
   const ctx = useContext(AuthContext);
@@ -28,6 +29,9 @@ function App() {
             </Route>
             <Route path="/complete-profile">
               <CompleteProfile />
+            </Route>
+            <Route path="/change-password">
+              <ChangePassword />
             </Route>
           </Layout>
         </Switch>

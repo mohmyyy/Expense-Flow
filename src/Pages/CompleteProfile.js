@@ -65,8 +65,8 @@ const CompleteProfile = () => {
         }
       );
       const data = await response.json();
-      if(!response.ok){
-        throw new Error(data.error.message)
+      if (!response.ok) {
+        throw new Error(data.error.message);
       }
       console.log(data);
     } catch (error) {

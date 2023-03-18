@@ -99,7 +99,7 @@ const AuthPage = () => {
         )}
         <button>{islogin ? "Log In" : "Sign Up"}</button>
         <span className={classes.link}>
-          <a href="/home">Forgot password?</a>
+          <a href="/change-password">Forgot password?</a>
         </span>
       </form>
       <button onClick={changeAuthHandler} className={classes.btn}>
