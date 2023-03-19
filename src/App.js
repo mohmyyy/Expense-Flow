@@ -14,36 +14,38 @@ import CartContextProvider, {
 import { AuthContext } from "./components/store/auth-context";
 
 function App() {
-  const autx = useContext(AuthContext)
+  const autx = useContext(AuthContext);
   return (
     <div className="App">
-        <CartContextProvider>
-          <Switch>
-            <Layout>
-              <Route path="/" exact>
-                <Redirect to="/profile" />
-              </Route>
-              <Route path="/profile" exact>
-                <ProfilePage />
-              </Route>
-              {!autx.isLoggedIn && <Route path="/Auth">
+      <CartContextProvider>
+        <Switch>
+          <Layout>
+            <Route path="/" exact>
+              <Redirect to="/track-expense" />
+            </Route>
+            <Route path="/profile" exact>
+              <ProfilePage />
+            </Route>
+            {!autx.isLoggedIn && (
+              <Route path="/Auth">
                 <AuthPage />
-              </Route>}
-              <Route path="/complete-profile">
-                <CompleteProfile />
               </Route>
-              <Route path="/change-password">
-                <ChangePassword />
+            )}
+            <Route path="/complete-profile">
+              <CompleteProfile />
+            </Route>
+            <Route path="/change-password">
+              <ChangePassword />
+            </Route>
+            {autx.isLoggedIn && (
+              <Route path="/track-expense">
+                <TrackExpenses />
               </Route>
-              {autx.isLoggedIn && (
-                <Route path="/track-expense">
-                  <TrackExpenses />
-                </Route>
-              )}
-              {/* {autx.isLoggedIn && <Redirect to="/" />} */}
-            </Layout>
-          </Switch>
-        </CartContextProvider>
+            )}
+            {/* {autx.isLoggedIn && <Redirect to="/" />} */}
+          </Layout>
+        </Switch>
+      </CartContextProvider>
     </div>
   );
 }
