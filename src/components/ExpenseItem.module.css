@@ -1,8 +1,28 @@
-
-.items{
+.container{
   margin: 20px 200px;
+  display: block;
+}
+.items{
+  /* margin: 20px 200px; */
   display: flex;
   justify-content: space-between;
-  border: 1px solid black;
+  /* border: 1px solid black; */
+}
 
+.card{
+  border: 1px solid black;
+  margin: 10px 0;
+  padding: 4px;
+  border-radius: 4px;
+
+}
+
+.button{
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+.button button{
+  /* margin: 100%; */
+  padding: 6px;
 }

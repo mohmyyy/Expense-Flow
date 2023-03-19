@@ -1,22 +1,37 @@
 import { useContext, useRef } from "react";
 import { CartContext } from "../components/store/cart-context";
+import ExpenseItem from "../components/ExpenseItem";
 import classes from "./TrackExpenseForm.module.css";
+
+let existingExpense = null;
+
 const TrackExpenseForm = () => {
+  const ctx = useContext(CartContext);
   const productNameRef = useRef();
   const productPriceRef = useRef();
   const productDesRef = useRef();
   const productCategoryRef = useRef();
-  const ctx = useContext(CartContext);
+
+  const editExpenseHandler = (expense) => {
+    console.log(expense);
+    productNameRef.current.value = expense.productName;
+    productPriceRef.current.value = expense.productPrice;
+    productDesRef.current.value = expense.productDes;
+    productCategoryRef.current.value = expense.productCategory;
+    existingExpense = expense.key;
+  };
 
   const expenseSubmitHandler = (event) => {
     event.preventDefault();
-    const expense = {
+    const expenseObj = {
       productName: productNameRef.current.value,
       productPrice: productPriceRef.current.value,
       productDes: productDesRef.current.value,
       productCategory: productCategoryRef.current.value,
     };
-    ctx.addExpense(expense);
+    const isPresent = existingExpense;
+    ctx.addExpense(expenseObj, isPresent);
+    existingExpense = null;
   };
   return (
     <div className={classes.container}>
@@ -36,6 +51,7 @@ const TrackExpenseForm = () => {
         </select>
         <button onClick={expenseSubmitHandler}>Submit</button>
       </form>
+      <ExpenseItem onEdit={editExpenseHandler} />
     </div>
   );
 };
