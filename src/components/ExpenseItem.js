@@ -5,16 +5,15 @@ import { CartContext } from "./store/cart-context";
 const ExpenseItem = (props) => {
   const ctx = useContext(CartContext);
   console.log(ctx.expenses);
+  const totalPrice = ctx.expenses.reduce((total, cur) => {
+    return +total + Number(cur.productPrice);
+  }, 0);
+  const upgrateToPremium = totalPrice >= 12000;
 
   const editHandler = (expense) => {
-    console.log(expense)
+    console.log(expense);
     props.onEdit(expense);
-    ctx.editExpense(expense)
-
-    // const updatedExpenses = ctx.expenses.filter((item) => {
-    //   return item.key !== key.key;
-    // });
-    // console.log(updatedExpenses);
+    ctx.editExpense(expense);
   };
   const deleteHandler = (id) => {
     ctx.deleteExpense(id);
@@ -53,12 +52,17 @@ const ExpenseItem = (props) => {
       {ctx.isData && (
         <div className={classes.items}>
           <h2>Product Name</h2>
-          <h2>Product Category</h2>
           <h2>Product Price</h2>
+          <h2>Product Category</h2>
           <h2>Product Description</h2>
         </div>
       )}
       {allExpenses}
+      <div>
+        {upgrateToPremium && (
+          <button className={classes.premium}>UPGRATE TO PREMIUM</button>
+        )}
+      </div>
     </div>
   );
 };

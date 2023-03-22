@@ -1,19 +1,13 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import classes from "./CompleteProfile.module.css";
-import { AuthContext } from "../components/store/auth-context";
 import { Redirect, Route, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CompleteProfile = () => {
-  const ctx = useContext(AuthContext);
-  console.log(ctx.token);
+  const token = useSelector((state) => state.auth.token);
   const history = useHistory();
-  // const nameRef = useRef();
-  // const photoUrlRef = useRef();
   const [userName, setUserName] = useState("");
   const [userURL, setUserURL] = useState("");
-  // const [image, setImage] = useState('');
-  // const [name, setName] = useState('');
-
   useEffect(() => {
     const asyncFun = async () => {
       try {
@@ -22,7 +16,7 @@ const CompleteProfile = () => {
           {
             method: "POST",
             body: JSON.stringify({
-              idToken: ctx.token,
+              idToken: token,
             }),
             headers: {
               "content-type": "application/json",
@@ -55,7 +49,7 @@ const CompleteProfile = () => {
         {
           method: "POST",
           body: JSON.stringify({
-            idToken: ctx.token,
+            idToken: token,
             displayName: userName,
             photoUrl: userURL,
             deleteAttribute: null,
@@ -89,9 +83,7 @@ const CompleteProfile = () => {
   };
   const redirectHandler = () => {
     // console.log('helllo')
-    return (
-      history.push('/profile')
-    );
+    return history.push("/profile");
   };
 
   return (

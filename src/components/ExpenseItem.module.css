@@ -26,3 +26,10 @@
   /* margin: 100%; */
   padding: 6px;
 }
+
+.premium {
+  display: flex;
+  padding: 8px;
+  margin: 0 auto;
+
+}

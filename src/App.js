@@ -11,10 +11,12 @@ import TrackExpenses from "./Pages/TrackExpenses";
 import CartContextProvider, {
   CartContext,
 } from "./components/store/cart-context";
-import { AuthContext } from "./components/store/auth-context";
+import { useSelector } from "react-redux";
+// import { AuthContext } from "./components/store/auth-context";
 
 function App() {
-  const autx = useContext(AuthContext);
+  // const autx = useContext(AuthContext);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
     <div className="App">
       <CartContextProvider>
@@ -26,7 +28,7 @@ function App() {
             <Route path="/profile" exact>
               <ProfilePage />
             </Route>
-            {!autx.isLoggedIn && (
+            {!isLoggedIn && (
               <Route path="/Auth">
                 <AuthPage />
               </Route>
@@ -37,12 +39,16 @@ function App() {
             <Route path="/change-password">
               <ChangePassword />
             </Route>
-            {autx.isLoggedIn && (
+            {isLoggedIn && (
               <Route path="/track-expense">
                 <TrackExpenses />
               </Route>
             )}
-            {/* {autx.isLoggedIn && <Redirect to="/" />} */}
+            {isLoggedIn && (
+              <Route path='/Auth'>
+                <Redirect to="/" />
+              </Route>
+            )}
           </Layout>
         </Switch>
       </CartContextProvider>

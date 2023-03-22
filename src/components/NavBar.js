@@ -1,13 +1,18 @@
 import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import classes from "./NavBar.module.css";
-import { AuthContext } from "./store/auth-context";
+// import { AuthContext } from "./store/auth-context";
+import { useDispatch, useSelector } from "react-redux";
+import { authAction } from "./store/auth";
 
 const NavBar = () => {
-  const ctx = useContext(AuthContext);
+  // const ctx = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const history = useHistory();
   const authHandler = () => {
-    ctx.onLoggedOut();
+    // ctx.onLoggedOut();
+    dispatch(authAction.logout());
     history.replace("/auth");
   };
   return (
@@ -23,9 +28,13 @@ const NavBar = () => {
         <li>
           <a href="/track-expense">Track Expense</a>
         </li>
+        {!isLoggedIn && (
+          <li>
+            <a href="/auth">Log In</a>
+          </li>
+        )}
         <li>
-          {!ctx.isLoggedIn && <button onClick={authHandler}>LogIn</button>}
-          {ctx.isLoggedIn && <button onClick={authHandler}>Logout</button>}
+          {isLoggedIn && <button onClick={authHandler}>Logout</button>}
         </li>
       </ul>
     </nav>

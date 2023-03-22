@@ -1,9 +1,14 @@
 import { useContext } from "react";
-import { AuthContext } from "../components/store/auth-context";
+import { useDispatch, useSelector } from "react-redux";
+import { authAction } from "../components/store/auth";
+// import { AuthContext } from "../components/store/auth-context";
 import CompleteProfile from "./CompleteProfile";
 import classes from "./ProfilePage.module.css";
 const ProfilePage = () => {
-  const ctx = useContext(AuthContext);
+  const token = useSelector((state)=> state.auth.token)
+
+  // const autx = authAction(())
+  const dispatch = useDispatch()
   const verifyUserHandler = async () => {
     try {
       const response = await fetch(
@@ -12,7 +17,7 @@ const ProfilePage = () => {
           method: "POST",
           body: JSON.stringify({
             requestType: "VERIFY_EMAIL",
-            idToken: ctx.token,
+            idToken: token,
           }),
           headers: {
             "Content-type": "application/json",
