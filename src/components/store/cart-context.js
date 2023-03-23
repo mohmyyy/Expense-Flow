@@ -104,6 +104,7 @@ const CartContextProvider = (props) => {
   const cartObj = {
     expenses: expense,
     isData: checkingData,
+    
     addExpense: addExpenseHandler,
     deleteExpense: deleteExpenseHandler,
     editExpense: editExpenseHandler,

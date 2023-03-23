@@ -1,8 +1,5 @@
 import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authAction } from "../components/store/auth";
-// import { AuthContext } from "../components/store/auth-context";
-import CompleteProfile from "./CompleteProfile";
 import classes from "./ProfilePage.module.css";
 const ProfilePage = () => {
   const token = useSelector((state)=> state.auth.token)

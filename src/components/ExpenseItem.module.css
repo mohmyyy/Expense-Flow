@@ -1,5 +1,5 @@
 .container{
-  margin: 20px 200px;
+  /* margin: 20px 200px; */
   display: block;
 }
 .items{
@@ -22,14 +22,24 @@
   justify-content: space-around;
   padding: 10px;
 }
-.button button{
+.button button{ 
   /* margin: 100%; */
   padding: 6px;
 }
 
 .premium {
   display: flex;
+  flex-direction: column;
   padding: 8px;
-  margin: 0 auto;
-
+  margin: 40px auto;
+  width: 140px;
+  gap: 20px;
+}
+.premium a {
+  /* border: 14px; */
+  color: blue;
+  background-color: grey;
+  text-align: center;
+  padding: 4px;
+  text-decoration: none;
 }

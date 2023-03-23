@@ -21,3 +21,12 @@
   border-radius: 8px;
   margin: 4px 0;
 }
+
+.themeButton{
+  color: #606060;
+}
+
+.dark{
+  background-color: #606060;
+  
+}

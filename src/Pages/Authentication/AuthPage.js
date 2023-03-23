@@ -2,9 +2,7 @@ import { useContext, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { authAction } from "../../components/store/auth";
-// import { AuthContext } from "../../components/store/auth-context";
 import classes from "./AuthPage.module.css";
-
 
 const AuthPage = () => {
   const [islogin, setIsLogin] = useState(false);
@@ -12,7 +10,7 @@ const AuthPage = () => {
   const [text, setPassword] = useState("password");
   const history = useHistory();
   // const ctx = useContext(AuthContext);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
@@ -53,8 +51,8 @@ const AuthPage = () => {
         throw new Error(data.error.message);
       } else {
         // ctx.onLogIn(data.idToken);
-        console.log(data.idToken)
-        dispatch(authAction.login(data.idToken))
+        console.log(data.idToken);
+        dispatch(authAction.login(data.idToken));
         history.replace("/profile");
       }
       console.log(data.idToken);
