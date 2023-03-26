@@ -4,7 +4,7 @@ import CompleteProfile from "./CompleteProfile";
 import store from "../../src/components/store/store";
 
 describe("Checking Complete Profile component", () => {
-  test("rendering full name label ", () => {
+  test("rendering quote ", () => {
     //Access
     render(
       <Provider store={store}>
@@ -13,13 +13,10 @@ describe("Checking Complete Profile component", () => {
     );
     //Act
     //Assert
-    const profileNameElement = screen.getByText(
-      "Full Name",
-      {
-        exact: false,
-      }
-    );
-    expect(profileNameElement).toBeInTheDocument;
+    const profileQuoteElement = screen.getByText("Winners never quit", {
+      exact: false,
+    });
+    expect(profileQuoteElement).toBeInTheDocument;
   });
   test("rendering profile completion", () => {
     //Access
@@ -37,5 +34,36 @@ describe("Checking Complete Profile component", () => {
       }
     );
     expect(profileCompletionElement).toBeInTheDocument;
+  });
+
+  test("fetching profile name from data from database", async () => {
+    //Access
+    render(
+      <Provider store={store}>
+        <CompleteProfile />
+      </Provider>
+    );
+    //Act
+    //Assert
+    const getDataNameDataBase = await screen.findByText("Full Name", {
+      exact: false,
+    });
+
+    expect(getDataNameDataBase).toBeInTheDocument;
+  });
+  test("fetching url from data from database", async () => {
+    //Access
+    render(
+      <Provider store={store}>
+        <CompleteProfile />
+      </Provider>
+    );
+    //Act
+    //Assert
+    const getDataURLDataBase = await screen.findByText("Profile Phot URL", {
+      exact: false,
+    });
+
+    expect(getDataURLDataBase).toBeInTheDocument;
   });
 });

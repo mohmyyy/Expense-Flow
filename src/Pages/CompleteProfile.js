@@ -8,6 +8,7 @@ const CompleteProfile = () => {
   const history = useHistory();
   const [userName, setUserName] = useState("");
   const [userURL, setUserURL] = useState("");
+  
   useEffect(() => {
     const asyncFun = async () => {
       try {
@@ -89,7 +90,7 @@ const CompleteProfile = () => {
   return (
     <div className={classes.container}>
       <div className={classes["header-quote"]}>
-        <h2> Winners never quid, quitters never win </h2>
+        <h2> Winners never quit, quitters never win </h2>
         <h2>
           Your profile is 64% completed. A complete profile has higher chances
           of landing a job
