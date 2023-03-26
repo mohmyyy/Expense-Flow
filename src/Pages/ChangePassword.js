@@ -34,6 +34,7 @@ const ChangePassword = () => {
             type="email"
             ref={emailRef}
             placeholder="Enter your Email here "
+            required
           />
           <button> Get Link</button>
         </form>

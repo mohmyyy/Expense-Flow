@@ -9,11 +9,10 @@ const AuthPage = () => {
   const [openEye, closeEye] = useState("open-eye-icon.png");
   const [text, setPassword] = useState("password");
   const history = useHistory();
-  // const ctx = useContext(AuthContext);
-  const dispatch = useDispatch();
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
+  const dispatch = useDispatch()
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
@@ -107,7 +106,7 @@ const AuthPage = () => {
       <button onClick={changeAuthHandler} className={classes.btn}>
         {islogin
           ? "Don't Have an Account? (Sign Up)"
-          : " Have an account? (Log In)"}
+          : "Have an account? (Log In)"}
       </button>
     </div>
   );

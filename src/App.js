@@ -1,4 +1,3 @@
-import { useCallback, useContext } from "react";
 import { Redirect, Route, Router, Switch } from "react-router-dom";
 import "./App.css";
 
@@ -23,7 +22,8 @@ function App() {
         <Switch>
           <Layout>
             <Route path="/" exact>
-              <Redirect to="/track-expense" />
+              {isLoggedIn && <Redirect to="/track-expense" />}
+              {!isLoggedIn && <Redirect to="/Auth" />}
             </Route>
             <Route path="/profile" exact>
               <ProfilePage />
@@ -45,7 +45,7 @@ function App() {
               </Route>
             )}
             {isLoggedIn && (
-              <Route path='/Auth'>
+              <Route path="/Auth">
                 <Redirect to="/" />
               </Route>
             )}

@@ -6,14 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { authAction } from "./store/auth";
 
 const NavBar = () => {
-  // const ctx = useContext(AuthContext);
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const history = useHistory();
   const authHandler = () => {
-    // ctx.onLoggedOut();
-    dispatch(authAction.logout());
     history.replace("/auth");
+    dispatch(authAction.logout());
   };
   return (
     // <header>
